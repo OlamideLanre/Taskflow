@@ -4,6 +4,9 @@
   padding: 1rem;
   /* text-align: center; */
 }
+/* body {
+  background-color: #111827;
+} */
 .note-main {
   width: 650px;
 }
@@ -12,8 +15,8 @@
 }
 
 .dot {
-  width: 10px; /* Size of the dot */
-  height: 10px;
+  width: 8px; /* Size of the dot */
+  height: 8px;
   border-radius: 50%;
   display: inline-block;
 }
@@ -61,7 +64,8 @@
 .progress-inner {
   width: 120px;
   height: 120px;
-  background: white; /* Inner background */
+  /* background: white; */
+  /* Inner background */
 }
 
 /* Percentage text */

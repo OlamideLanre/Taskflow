@@ -1,16 +1,8 @@
 import { PlusCircleFilled } from "@ant-design/icons";
-import { useEffect, useState } from "react";
-export const NoteModal = () => {
-  type TASK = {
-    task: string;
-    piority: string;
-    category: string;
-  }[];
-
+import { useState } from "react";
+export const NoteModal = ({ tasks, setTasks }) => {
   const [Task, setTask] = useState<string>("");
   const [Piority, setPiority] = useState("");
-  const [Todos, setTodos] = useState<TASK>([]);
-  localStorage.setItem("todolist", JSON.stringify(Todos));
 
   const curateTodo = () => {
     let Category = document.getElementById("task-category").value;
@@ -18,18 +10,19 @@ export const NoteModal = () => {
       console.log("task cannot be empty");
       return;
     }
-    let updatedTodo = Todos.push({
+    const newTask = {
       task: Task,
       piority: Piority,
       category: Category,
-    });
-    localStorage.setItem("todolist", JSON.stringify(updatedTodo));
-    // console.log(Todos);
-    // console.log(updatedTodo);
+    };
 
-    // console.log(Category);
+    const updatedTasks = [...tasks, newTask];
+    setTasks(updatedTasks);
+    localStorage.setItem("todolist", JSON.stringify(updatedTasks));
+    console.log(updatedTasks);
 
     setTask("");
+    document.getElementById("my_modal_3").close();
   };
 
   function ckChange(item) {
@@ -52,11 +45,6 @@ export const NoteModal = () => {
       }
     }
   }
-
-  useEffect(() => {
-    const persistedTasks = JSON.parse(localStorage.getItem("todolist") || "");
-    setTodos(persistedTasks);
-  }, []);
 
   return (
     <>
@@ -126,21 +114,10 @@ export const NoteModal = () => {
                   className="bg-lime-100 text-black px-4 py-2 rounded-sm"
                 >
                   <option value="All">All(default)</option>
+                  {/* dummy category */}
                   <option value="Work">Work</option>
                   <option value="Personal">Personal</option>
                 </select>
-                {/* <button
-                  className="bg-black text-white font-light px-14 py-1 rounded-2xl"
-                  title="default category"
-                >
-                  All
-                </button>
-                <button
-                  className="bg-black text-white font-light px-14 py-1 rounded-2xl ml-3"
-                  title="default category"
-                >
-                  All
-                </button> */}
               </div>
             </div>
             <button
