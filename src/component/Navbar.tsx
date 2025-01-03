@@ -1,9 +1,18 @@
-import { PlusOutlined } from "@ant-design/icons";
+import { BulbFilled, PlusOutlined } from "@ant-design/icons";
+import { useContext } from "react";
+import { ThemeContext } from "../ThemeContext";
 export const NavBar = () => {
+  const { Theme, changeTheme } = useContext(ThemeContext);
   return (
     <>
       <nav className="container">
-        <div className="main flex bg-black text-lime-200 justify-between py-2 px-6 rounded-md items-center">
+        <div
+          className="main bg-black flex text-lime-200 justify-between py-2 px-6 rounded-md items-center"
+          style={{
+            backgroundColor: Theme == "light" ? "#d9f99d" : "black",
+            color: Theme == "light" ? "#111827" : "#d9f99d",
+          }}
+        >
           <div className="flex gap-9">
             <a href="" className="links">
               All
@@ -13,11 +22,16 @@ export const NavBar = () => {
             </a>
           </div>
 
-          <div className="text-black">
-            <button className="bg-white  rounded-2xl px-8 py-1">
+          <div>
+            <button className="bg-white text-black rounded-2xl px-8 py-1 mr-2">
               NEW CATEGORY <PlusOutlined />
             </button>
-            {/* <Icon type="plus" color="green" /> */}
+            <BulbFilled
+              className="cursor-pointer"
+              onClick={() => {
+                changeTheme();
+              }}
+            />
           </div>
         </div>
       </nav>
