@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { NoteModal } from "../component/NoteModal";
-import { DatabaseFilled, DeleteFilled } from "@ant-design/icons";
+import { DeleteFilled } from "@ant-design/icons";
 import { ThemeContext } from "../ThemeContext";
 // import { Typography } from "antd";
 export const Task = ({ tasks, setTasks }) => {
   // const { Paragraph } = Typography;
   const { Theme } = useContext(ThemeContext);
+  const [completed, setCompleted] = useState();
   const [currentDate, setCurrentDate] = useState(getDate());
   function getDate() {
     const todaysDate = new Date();
@@ -15,6 +16,28 @@ export const Task = ({ tasks, setTasks }) => {
 
     return `${month} ${dateOfWeek},${year}`;
   }
+
+  function deleteTask(index: number) {
+    const delTask = tasks.filter((todo) => todo.ID !== index);
+    console.log("deltas: ", delTask);
+    setTasks(delTask);
+    localStorage.setItem("todolist", JSON.stringify(delTask));
+  }
+
+  const isTaskCompleted = () => {
+    const finished_task = document.getElementById("complete").checked;
+
+    setCompleted(finished_task);
+
+    if (finished_task === true) {
+      console.log("this task has been completed");
+      console.log("state: ", completed);
+    } else {
+      console.log("uncompleted task");
+    }
+    // console.log("finished task: ", finished_task);
+  };
+
   return (
     <>
       <div>
@@ -31,7 +54,14 @@ export const Task = ({ tasks, setTasks }) => {
                 >
                   <div className="flex justify-between items-center">
                     <div>
-                      <p className="text-xl font-light text-black">
+                      <p
+                        className={`text-xl font-light text-black 
+                          ${
+                            completed === true
+                              ? "complete-task"
+                              : "uncomplete-task"
+                          }`}
+                      >
                         <span
                           className={`dot mr-1 ${
                             t.piority === "High" ? "high" : "medium"
@@ -48,8 +78,16 @@ export const Task = ({ tasks, setTasks }) => {
                       </p>
                     </div>
                     <div>
-                      <input type="checkbox" className="cursor-pointer" />
-                      <DeleteFilled className="cursor-pointer text-black" />
+                      <input
+                        type="checkbox"
+                        className="cursor-pointer"
+                        id="complete"
+                        onClick={isTaskCompleted}
+                      />
+                      <DeleteFilled
+                        className="cursor-pointer text-black"
+                        onClick={() => deleteTask(t.ID)}
+                      />
                     </div>
                   </div>
                 </div>
@@ -58,7 +96,6 @@ export const Task = ({ tasks, setTasks }) => {
               // {}
               <div className="text-center text-gray-500 text-3xl ">
                 No plan yet
-                {/* <DatabaseFilled /> */}
               </div>
             )}
 

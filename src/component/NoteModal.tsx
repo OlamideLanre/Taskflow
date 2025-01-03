@@ -4,6 +4,10 @@ export const NoteModal = ({ tasks, setTasks }) => {
   const [Task, setTask] = useState<string>("");
   const [Piority, setPiority] = useState("");
 
+  const generatedUniqueID = () => {
+    return Math.random().toString(16).substring(2, 6);
+  };
+
   const curateTodo = () => {
     let Category = document.getElementById("task-category").value;
     if (Task.trim() === "") {
@@ -11,6 +15,7 @@ export const NoteModal = ({ tasks, setTasks }) => {
       return;
     }
     const newTask = {
+      ID: generatedUniqueID(),
       task: Task,
       piority: Piority,
       category: Category,

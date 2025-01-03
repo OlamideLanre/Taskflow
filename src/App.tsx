@@ -8,6 +8,7 @@ import { ThemeContext } from "./ThemeContext";
 
 function App() {
   type TASK = {
+    readonly ID: string;
     task: string;
     piority: string;
     category: string;

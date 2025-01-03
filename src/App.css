@@ -73,3 +73,10 @@
   font-size: 1.3rem;
   font-weight: 600;
 }
+
+.complete-task {
+  text-decoration: line-through;
+}
+.uncomplete-task {
+  text-decoration: none;
+}
