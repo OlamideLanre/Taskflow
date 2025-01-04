@@ -6,8 +6,8 @@ import { ThemeContext } from "../ThemeContext";
 export const Task = ({ tasks, setTasks }) => {
   // const { Paragraph } = Typography;
   const { Theme } = useContext(ThemeContext);
-  const [completed, setCompleted] = useState();
   const [currentDate, setCurrentDate] = useState(getDate());
+
   function getDate() {
     const todaysDate = new Date();
     const month = todaysDate.toLocaleString("dafult", { month: "long" });
@@ -17,26 +17,33 @@ export const Task = ({ tasks, setTasks }) => {
     return `${month} ${dateOfWeek},${year}`;
   }
 
-  function deleteTask(index: number) {
-    const delTask = tasks.filter((todo) => todo.ID !== index);
-    console.log("deltas: ", delTask);
+  function deleteTask(taskID: number) {
+    const delTask = tasks.filter((todo) => todo.ID !== taskID);
     setTasks(delTask);
     localStorage.setItem("todolist", JSON.stringify(delTask));
   }
 
-  const isTaskCompleted = () => {
-    const finished_task = document.getElementById("complete").checked;
-
-    setCompleted(finished_task);
-
-    if (finished_task === true) {
-      console.log("this task has been completed");
-      console.log("state: ", completed);
-    } else {
-      console.log("uncompleted task");
-    }
-    // console.log("finished task: ", finished_task);
+  const isTaskCompleted = (taskID) => {
+    const updatedTasks = tasks.map((task) =>
+      task.ID === taskID ? { ...task, completed: !task.completed } : task
+    );
+    setTasks(updatedTasks);
+    localStorage.setItem("todolist", JSON.stringify(updatedTasks));
   };
+
+  useEffect(() => {
+    const completedTasks = tasks.filter((task) => task.completed).length;
+    const totalTasks = tasks.length;
+    const progress = totalTasks ? (completedTasks / totalTasks) * 100 : 0;
+
+    const progressBar = document.getElementById("progressbar");
+    if (progressBar) {
+      progressBar.style.background = `conic-gradient(limegreen ${progress}%, pink 0%)`;
+      progressBar.querySelector(".percentage").textContent = `${Math.round(
+        progress
+      )}%`;
+    }
+  }, [tasks]);
 
   return (
     <>
@@ -57,7 +64,7 @@ export const Task = ({ tasks, setTasks }) => {
                       <p
                         className={`text-xl font-light text-black 
                           ${
-                            completed === true
+                            t.completed === true
                               ? "complete-task"
                               : "uncomplete-task"
                           }`}
@@ -81,8 +88,11 @@ export const Task = ({ tasks, setTasks }) => {
                       <input
                         type="checkbox"
                         className="cursor-pointer"
-                        id="complete"
-                        onClick={isTaskCompleted}
+                        id={`complete${t.ID}`}
+                        onChange={() => {
+                          isTaskCompleted(t.ID);
+                        }}
+                        checked={t.complete}
                       />
                       <DeleteFilled
                         className="cursor-pointer text-black"
@@ -105,15 +115,15 @@ export const Task = ({ tasks, setTasks }) => {
           {/* <Paragraph editable>hello editable text</Paragraph> */}
           <div className="Note-child mx-auto">
             <div className="progress-wrapper text-center">
-              <p className="message">Great start! Keep it going! 🚀</p>
-              <div className="progress-circle">
+              {/* <p className="message">Great start! Keep it going! 🚀</p> */}
+              <div className="progress-circle" id="progressbar">
                 <div
                   className="progress-inner"
                   style={{
                     backgroundColor: Theme == "light" ? "white" : "#111827",
                   }}
                 >
-                  <p className="percentage">5%</p>
+                  <p className="percentage">0%</p>
                 </div>
               </div>
             </div>

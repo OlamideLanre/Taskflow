@@ -19,6 +19,7 @@ export const NoteModal = ({ tasks, setTasks }) => {
       task: Task,
       piority: Piority,
       category: Category,
+      completed: false,
     };
 
     const updatedTasks = [...tasks, newTask];
@@ -50,7 +51,6 @@ export const NoteModal = ({ tasks, setTasks }) => {
       }
     }
   }
-
   return (
     <>
       {/* You can open the modal using document.getElementById('ID').showModal() method */}

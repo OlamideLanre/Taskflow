@@ -46,7 +46,7 @@
   width: 150px;
   height: 150px;
   background: conic-gradient(
-    limegreen 5%,
+    limegreen 0%,
     /* Progress color */ pink 0% /* Remaining part */
   );
   margin: 0 auto;

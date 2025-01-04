@@ -12,6 +12,7 @@ function App() {
     task: string;
     piority: string;
     category: string;
+    completed: boolean;
   }[];
 
   const [Theme, setTheme] = useState("light");
