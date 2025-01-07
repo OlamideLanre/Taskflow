@@ -3,19 +3,9 @@ import { NoteModal } from "../component/NoteModal";
 import { DeleteFilled } from "@ant-design/icons";
 import { ThemeContext } from "../ThemeContext";
 // import { Typography } from "antd";
-export const Task = ({ tasks, setTasks }) => {
+export const Task = ({ tasks, setTasks, currentDate, setCurrentDate }) => {
   // const { Paragraph } = Typography;
   const { Theme } = useContext(ThemeContext);
-  const [currentDate, setCurrentDate] = useState(getDate());
-
-  function getDate() {
-    const todaysDate = new Date();
-    const month = todaysDate.toLocaleString("dafult", { month: "long" });
-    const dateOfWeek = todaysDate.getDate();
-    const year = todaysDate.getFullYear();
-
-    return `${month} ${dateOfWeek},${year}`;
-  }
 
   function deleteTask(taskID: number) {
     const delTask = tasks.filter((todo) => todo.ID !== taskID);
@@ -28,11 +18,13 @@ export const Task = ({ tasks, setTasks }) => {
       task.ID === taskID ? { ...task, completed: !task.completed } : task
     );
     setTasks(updatedTasks);
+
     localStorage.setItem("todolist", JSON.stringify(updatedTasks));
   };
 
   useEffect(() => {
     const completedTasks = tasks.filter((task) => task.completed).length;
+
     const totalTasks = tasks.length;
     const progress = totalTasks ? (completedTasks / totalTasks) * 100 : 0;
 
@@ -78,7 +70,7 @@ export const Task = ({ tasks, setTasks }) => {
                         {t.task}
                       </p>
                       <p className="text-xs text-gray-400">
-                        {currentDate}{" "}
+                        {t.date}{" "}
                         <span className="text-xs text-gray-600 font-medium pl-1">
                           {t.category}
                         </span>
@@ -92,7 +84,7 @@ export const Task = ({ tasks, setTasks }) => {
                         onChange={() => {
                           isTaskCompleted(t.ID);
                         }}
-                        checked={t.complete}
+                        checked={t.completed}
                       />
                       <DeleteFilled
                         className="cursor-pointer text-black"
@@ -109,13 +101,17 @@ export const Task = ({ tasks, setTasks }) => {
               </div>
             )}
 
-            <NoteModal tasks={tasks} setTasks={setTasks} />
+            <NoteModal
+              tasks={tasks}
+              setTasks={setTasks}
+              currentDate={currentDate}
+            />
           </div>
 
           {/* <Paragraph editable>hello editable text</Paragraph> */}
           <div className="Note-child mx-auto">
             <div className="progress-wrapper text-center">
-              {/* <p className="message">Great start! Keep it going! 🚀</p> */}
+              <p className="message">Great start! Keep it going! 🚀</p>
               <div className="progress-circle" id="progressbar">
                 <div
                   className="progress-inner"

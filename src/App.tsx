@@ -13,10 +13,16 @@ function App() {
     piority: string;
     category: string;
     completed: boolean;
+    date: string;
   }[];
-
+  const today = new Date().toLocaleString("default", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
   const [Theme, setTheme] = useState("light");
   const [tasks, setTasks] = useState<TASK>([]);
+  const [currentDate, setCurrentDate] = useState(today);
 
   const changeTheme = () => {
     const updateTheme = Theme === "light" ? "dark" : "light";
@@ -39,7 +45,12 @@ function App() {
     <>
       <ThemeContext.Provider value={{ Theme, changeTheme }}>
         <NavBar />
-        <Task tasks={tasks} setTasks={setTasks} />
+        <Task
+          tasks={tasks}
+          setTasks={setTasks}
+          currentDate={currentDate}
+          setCurrentDate={setCurrentDate}
+        />
       </ThemeContext.Provider>
     </>
   );

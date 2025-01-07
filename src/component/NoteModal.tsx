@@ -1,6 +1,6 @@
 import { PlusCircleFilled } from "@ant-design/icons";
 import { useState } from "react";
-export const NoteModal = ({ tasks, setTasks }) => {
+export const NoteModal = ({ tasks, setTasks, currentDate }) => {
   const [Task, setTask] = useState<string>("");
   const [Piority, setPiority] = useState("");
 
@@ -20,7 +20,9 @@ export const NoteModal = ({ tasks, setTasks }) => {
       piority: Piority,
       category: Category,
       completed: false,
+      date: currentDate,
     };
+    console.log(newTask.date);
 
     const updatedTasks = [...tasks, newTask];
     setTasks(updatedTasks);
@@ -35,7 +37,6 @@ export const NoteModal = ({ tasks, setTasks }) => {
     let checkboxs = document.getElementsByName(item.name);
     let isChecked = document.getElementById(item.id);
     setPiority(isChecked.value);
-    // console.log(isChecked.value);
 
     if (isChecked.checked) {
       for (let i = 0; i < checkboxs.length; i++) {
