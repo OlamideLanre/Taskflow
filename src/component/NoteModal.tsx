@@ -1,8 +1,11 @@
 import { PlusCircleFilled } from "@ant-design/icons";
-import { useState } from "react";
-export const NoteModal = ({ tasks, setTasks, currentDate }) => {
+import { useContext, useEffect, useState } from "react";
+import { customDate, ThemeContext } from "../ThemeContext";
+export const NoteModal = ({ tasks, setTasks }) => {
   const [Task, setTask] = useState<string>("");
   const [Piority, setPiority] = useState("");
+  const { category } = useContext(ThemeContext);
+  const currentDate = customDate();
 
   const generatedUniqueID = () => {
     return Math.random().toString(16).substring(2, 6);
@@ -22,7 +25,6 @@ export const NoteModal = ({ tasks, setTasks, currentDate }) => {
       completed: false,
       date: currentDate,
     };
-    console.log(newTask.date);
 
     const updatedTasks = [...tasks, newTask];
     setTasks(updatedTasks);
@@ -52,6 +54,7 @@ export const NoteModal = ({ tasks, setTasks, currentDate }) => {
       }
     }
   }
+
   return (
     <>
       {/* You can open the modal using document.getElementById('ID').showModal() method */}
@@ -121,8 +124,17 @@ export const NoteModal = ({ tasks, setTasks, currentDate }) => {
                 >
                   <option value="All">All(default)</option>
                   {/* dummy category */}
-                  <option value="Work">Work</option>
-                  <option value="Personal">Personal</option>
+                  {category.length > 0 ? (
+                    category.map((c: string, index: number) => (
+                      <option value={c} key={index}>
+                        {c}
+                      </option>
+                    ))
+                  ) : (
+                    <option value={"default"}>Default</option>
+                  )}
+                  {/* <option value="Work">Work</option>
+                  <option value="Personal">Personal</option> */}
                 </select>
               </div>
             </div>

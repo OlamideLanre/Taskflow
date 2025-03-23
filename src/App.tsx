@@ -4,8 +4,6 @@ import { NavBar } from "./component/Navbar";
 import { Task } from "./pages/Tasks";
 import { ThemeContext } from "./ThemeContext";
 
-// import { DatePicker } from "antd";
-
 function App() {
   type TASK = {
     readonly ID: string;
@@ -15,27 +13,15 @@ function App() {
     completed: boolean;
     date: string;
   }[];
-  const today = new Date().toLocaleString("default", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
+  const [filter, setFilter] = useState<string>("All");
   const [Theme, setTheme] = useState("light");
   const [tasks, setTasks] = useState<TASK>([]);
-  const [currentDate, setCurrentDate] = useState(today);
+  const [category, setCategory] = useState<string[]>([]);
 
   const changeTheme = () => {
     const updateTheme = Theme === "light" ? "dark" : "light";
     setTheme(updateTheme);
   };
-
-  // Update body background and text color based on the theme
-  useEffect(() => {
-    document.body.style.backgroundColor =
-      Theme === "light" ? "white" : "#111827";
-    document.body.style.color = Theme === "light" ? "#111827" : "white";
-    document.body.style.transition = "background-color 300ms, color 300ms";
-  }, [Theme]);
 
   useEffect(() => {
     const storedTasks = JSON.parse(localStorage.getItem("todolist") || "[]");
@@ -43,14 +29,11 @@ function App() {
   }, []);
   return (
     <>
-      <ThemeContext.Provider value={{ Theme, changeTheme }}>
+      <ThemeContext.Provider
+        value={{ Theme, changeTheme, category, setCategory, filter, setFilter }}
+      >
         <NavBar />
-        <Task
-          tasks={tasks}
-          setTasks={setTasks}
-          currentDate={currentDate}
-          setCurrentDate={setCurrentDate}
-        />
+        <Task tasks={tasks} setTasks={setTasks} />
       </ThemeContext.Provider>
     </>
   );

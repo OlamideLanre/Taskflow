@@ -2,9 +2,9 @@ import { BulbFilled, PlusOutlined } from "@ant-design/icons";
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../ThemeContext";
 export const NavBar = () => {
-  const { Theme, changeTheme } = useContext(ThemeContext);
+  const { category, setCategory, setFilter } = useContext(ThemeContext);
   const [categoryname, setCategoryName] = useState<string>();
-  const [category, setCategory] = useState<string[]>([]);
+
   const AddCategory = () => {
     if (categoryname) {
       let add = [...category, categoryname];
@@ -14,6 +14,7 @@ export const NavBar = () => {
       console.log("no category yet");
     }
     setCategoryName("");
+    document.getElementById("my_modal_4").close();
   };
 
   useEffect(() => {
@@ -22,55 +23,38 @@ export const NavBar = () => {
     );
     setCategory(retrievedCategory);
   }, []);
+
   return (
     <>
-      <nav className="container">
-        <div
-          className="main bg-black flex text-lime-200 justify-between py-2 px-6 rounded-md items-center"
-          style={{
-            backgroundColor: Theme == "light" ? "#d9f99d" : "white",
-            color: Theme == "light" ? "#111827" : "black",
-          }}
-        >
+      <nav className="containern mx-auto my-0">
+        <div className="main bg-black flex text-lime-200 justify-between py-2 px-6 rounded-md items-center">
           <div className="flex gap-9">
             <select
               name=""
               id=""
-              className={`${
-                Theme === "light" ? "bg-lime-200" : "bg-white"
-              } text-black px-4 py-1 rounded-sm font-semibold text-xl`}
+              className=" bg-black text-[#AEC289] px-4 py-1 rounded-sm font-semibold text-xl"
+              onClick={(e) => setFilter(e.target.value)}
             >
-              <option value="all">All</option>
-              {category.map((c, index) => (
-                <option key={index} value={c}>
-                  {c}
+              <option value="All">All</option>
+              {category.map((ct: string, index: number) => (
+                <option key={index} value={ct}>
+                  {ct}
                 </option>
               ))}
             </select>
-            {/* <a href="" className="links">
-              All
-            </a> */}
-            {/* <a href="" className="links">
-              Completed
-            </a> */}
           </div>
 
           <div>
             {/* You can open the modal using document.getElementById('ID').showModal() method */}
             <button
-              className="btn bg-white text-black rounded-2xl px-8 py-1 mr-2"
+              className="btn bg-white text-black rounded-2xl py-1 px-7 text-sm"
               onClick={() => document.getElementById("my_modal_4").showModal()}
-              style={{
-                backgroundColor: Theme == "light" ? "white" : "#111827",
-                color: Theme == "light" ? "#111827" : "white",
-              }}
             >
               NEW CATEGORY <PlusOutlined />
             </button>
             <dialog id="my_modal_4" className="modal">
-              <div className="modal-box p-4">
+              <div className="modal-box  p-4 ">
                 <form method="dialog">
-                  {/* if there is a button in form, it will close the modal */}
                   <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
                     ✕
                   </button>
@@ -101,12 +85,12 @@ export const NavBar = () => {
             {/* <button className="bg-white text-black rounded-2xl px-8 py-1 mr-2">
               NEW CATEGORY <PlusOutlined />
             </button> */}
-            <BulbFilled
+            {/* <BulbFilled
               className="cursor-pointer"
               onClick={() => {
                 changeTheme();
               }}
-            />
+            /> */}
           </div>
         </div>
       </nav>
