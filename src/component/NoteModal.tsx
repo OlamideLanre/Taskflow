@@ -19,6 +19,7 @@ export const NoteModal = ({ tasks, setTasks }) => {
     }
     const newTask = {
       ID: generatedUniqueID(),
+      UserID: localStorage.getItem("UserID"),
       task: Task,
       piority: Piority,
       category: Category,
@@ -63,19 +64,14 @@ export const NoteModal = ({ tasks, setTasks }) => {
         title="add new note"
         onClick={() => document.getElementById("my_modal_3").showModal()}
       />
-      {/* You can open the modal using document.getElementById('ID').showModal() method */}
       <dialog id="my_modal_3" className="modal rounded-lg">
         <div className="modal-box">
           <form method="dialog">
-            {/* if there is a button in form, it will close the modal */}
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
               ✕
             </button>
           </form>
-          <div
-            className=" mx-auto p-10 flex flex-col"
-            // style={{ width: "28rem" }}
-          >
+          <div className=" mx-auto p-10 flex flex-col">
             <input
               type="text"
               className="bg-white pr-24 pl-5 py-2 border-black border-b outline-none"
@@ -123,7 +119,6 @@ export const NoteModal = ({ tasks, setTasks }) => {
                   className="bg-lime-100 text-black px-4 py-2 rounded-sm"
                 >
                   <option value="All">All(default)</option>
-                  {/* dummy category */}
                   {category.length > 0 ? (
                     category.map((c: string, index: number) => (
                       <option value={c} key={index}>
@@ -133,8 +128,6 @@ export const NoteModal = ({ tasks, setTasks }) => {
                   ) : (
                     <option value={"default"}>Default</option>
                   )}
-                  {/* <option value="Work">Work</option>
-                  <option value="Personal">Personal</option> */}
                 </select>
               </div>
             </div>

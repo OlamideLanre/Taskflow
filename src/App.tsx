@@ -7,6 +7,7 @@ import { ThemeContext } from "./ThemeContext";
 function App() {
   type TASK = {
     readonly ID: string;
+    readonly UserID: string;
     task: string;
     piority: string;
     category: string;
@@ -24,6 +25,14 @@ function App() {
   };
 
   useEffect(() => {
+    let uniqueID = localStorage.getItem("UserID");
+    if (!uniqueID) {
+      uniqueID = Math.random().toString(16).substring(2, 6);
+      localStorage.setItem("UserID", uniqueID);
+    } else {
+      console.log("welcome user");
+    }
+
     const storedTasks = JSON.parse(localStorage.getItem("todolist") || "[]");
     setTasks(storedTasks);
   }, []);

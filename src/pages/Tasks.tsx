@@ -118,7 +118,7 @@ export const Task = ({ tasks, setTasks }) => {
 
           <div className="Note-child mx-auto">
             <div className="progress-wrapper text-center">
-              <p className="message">Great start! Keep it going! 🚀</p>
+              <p className="message">Your progress so far</p>
               <div className="progress-circle" id="progressbar">
                 <div className="progress-inner bg-white">
                   <p className="percentage">0%</p>
